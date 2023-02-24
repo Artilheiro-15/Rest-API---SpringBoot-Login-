@@ -1,4 +1,4 @@
-package com.atilla_jr.services.exception;
+package com.atilla_jr.rest_ap.exception;
 
 public class ObjectNotFoundException extends RuntimeException {
 

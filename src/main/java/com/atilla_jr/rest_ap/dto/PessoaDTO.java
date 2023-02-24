@@ -9,33 +9,33 @@ import java.util.Date;
 public class PessoaDTO implements Serializable {
 
   private Integer id;
-  private String name;
+  private String nome;
   private String sobrenome;
   private String genero;
 
   @JsonFormat(pattern = "dd/MM/yyyy")
   private Date data_nascimento;
 
-  private String incricao;
+  private String inscricao;
 
   @JsonFormat(pattern = "dd/MM/yyyy")
   private LocalDateTime created_at;
 
   @JsonFormat(pattern = "dd/MM/yyyy")
-  private LocalDateTime updated_at;
+  private LocalDateTime update_at;
 
   public PessoaDTO() {}
 
   public PessoaDTO(Pessoa obj) {
     id = obj.getId();
 
-    name = obj.getName();
+    nome = obj.getnome();
     sobrenome = obj.getSobrenome();
     genero = obj.getGenero();
     data_nascimento = obj.getData_nascimento();
-    incricao = obj.getInscricao();
+    inscricao = obj.getInscricao();
     created_at = obj.getCreated_at();
-    updated_at = obj.getUpdated_at();
+    update_at = obj.getupdate_at();
   }
 
   public Integer getId() {
@@ -46,12 +46,12 @@ public class PessoaDTO implements Serializable {
     this.id = id;
   }
 
-  public String getName() {
-    return name;
+  public String getnome() {
+    return nome;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setnome(String nome) {
+    this.nome = nome;
   }
 
   public String getSobrenome() {
@@ -79,11 +79,11 @@ public class PessoaDTO implements Serializable {
   }
 
   public String getIncricao() {
-    return incricao;
+    return inscricao;
   }
 
   public void setIncricao(String incricao) {
-    this.incricao = incricao;
+    this.inscricao = incricao;
   }
 
   public LocalDateTime getCreated_at() {
@@ -94,11 +94,11 @@ public class PessoaDTO implements Serializable {
     this.created_at = created_at;
   }
 
-  public LocalDateTime getUpdated_at() {
-    return updated_at;
+  public LocalDateTime getupdate_at() {
+    return update_at;
   }
 
-  public void setUpdated_at(LocalDateTime updated_at) {
-    this.updated_at = updated_at;
+  public void setupdate_at(LocalDateTime update_at) {
+    this.update_at = update_at;
   }
 }

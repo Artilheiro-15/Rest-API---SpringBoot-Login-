@@ -1,51 +1,51 @@
 package com.atilla_jr.rest_ap.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-@Entity(name = "primeira_etapa")
+@Entity(name = "pessoa")
 public class Pessoa {
 
-  @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Id
   private Integer id;
 
-  private String name;
+  private String nome;
   private String sobrenome;
   private String genero;
   private Date data_nascimento;
-  private String incricao;
+  private String inscricao;
 
   @Column(updatable = false)
   @CreationTimestamp
   private LocalDateTime created_at;
 
   @UpdateTimestamp
-  private LocalDateTime updated_at;
+  private LocalDateTime update_at;
 
   public Pessoa() {}
 
   public Pessoa(
     Integer id,
-    String name,
+    String nome,
     String sobrenome,
     String genero,
     Date data_nascimento,
-    String incricao
+    String inscricao
   ) {
     this.id = id;
-    this.name = name;
+    this.nome = nome;
     this.sobrenome = sobrenome;
     this.genero = genero;
     this.data_nascimento = data_nascimento;
-    this.incricao = incricao;
+    this.inscricao = inscricao;
   }
 
   public Integer getId() {
@@ -56,12 +56,12 @@ public class Pessoa {
     this.id = id;
   }
 
-  public String getName() {
-    return name;
+  public String getnome() {
+    return nome;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setnome(String nome) {
+    this.nome = nome;
   }
 
   public String getSobrenome() {
@@ -89,11 +89,11 @@ public class Pessoa {
   }
 
   public String getInscricao() {
-    return incricao;
+    return inscricao;
   }
 
   public void setInscricao(String inscricao) {
-    this.incricao = inscricao;
+    this.inscricao = inscricao;
   }
 
   public LocalDateTime getCreated_at() {
@@ -104,12 +104,12 @@ public class Pessoa {
     this.created_at = created_at;
   }
 
-  public LocalDateTime getUpdated_at() {
-    return updated_at;
+  public LocalDateTime getupdate_at() {
+    return update_at;
   }
 
-  public void setUpdated_at(LocalDateTime updated_at) {
-    this.updated_at = updated_at;
+  public void setupdate_at(LocalDateTime update_at) {
+    this.update_at = update_at;
   }
 
   @Override
