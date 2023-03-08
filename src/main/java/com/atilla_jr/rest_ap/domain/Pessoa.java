@@ -56,11 +56,11 @@ public class Pessoa {
     this.id = id;
   }
 
-  public String getnome() {
+  public String getNome() {
     return nome;
   }
 
-  public void setnome(String nome) {
+  public void setNome(String nome) {
     this.nome = nome;
   }
 

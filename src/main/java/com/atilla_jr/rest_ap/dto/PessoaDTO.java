@@ -29,7 +29,7 @@ public class PessoaDTO implements Serializable {
   public PessoaDTO(Pessoa obj) {
     id = obj.getId();
 
-    nome = obj.getnome();
+    nome = obj.getNome();
     sobrenome = obj.getSobrenome();
     genero = obj.getGenero();
     data_nascimento = obj.getData_nascimento();
@@ -46,11 +46,11 @@ public class PessoaDTO implements Serializable {
     this.id = id;
   }
 
-  public String getnome() {
+  public String getNome() {
     return nome;
   }
 
-  public void setnome(String nome) {
+  public void setNome(String nome) {
     this.nome = nome;
   }
 
@@ -58,7 +58,7 @@ public class PessoaDTO implements Serializable {
     return sobrenome;
   }
 
-  public void setSobrenome(String sobrenome) {
+  public void setSobreNome(String sobrenome) {
     this.sobrenome = sobrenome;
   }
 
