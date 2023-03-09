@@ -56,9 +56,9 @@ public class PessoaService {
       obj.setSobrenome(newObj.getSobrenome());
     }
 
-    if (!(obj.getData_nascimento() != null)) {
-      obj.setData_nascimento(newObj.getData_nascimento());
-    }
+    // if (!(obj.getData_nascimento() != null)) {
+    //   obj.setData_nascimento(newObj.getData_nascimento());
+    //}
     if (!(obj.getGenero() != null)) {
       obj.setGenero(newObj.getGenero());
     }

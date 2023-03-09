@@ -1,14 +1,15 @@
 package com.atilla_jr.rest_ap.services;
 
 import com.atilla_jr.rest_ap.domain.Usuario;
-import com.atilla_jr.rest_ap.dto.AuthRequestDTO;
-import com.atilla_jr.rest_ap.dto.AuthResponseDTO;
+import com.atilla_jr.rest_ap.dto.UserRequestDTO;
+import com.atilla_jr.rest_ap.dto.UserResponseDTO;
 import com.atilla_jr.rest_ap.repository.UsuarioRepository;
 import com.atilla_jr.rest_ap.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,38 +17,43 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
   @Autowired
-  private UsuarioRepository usuarioRepository;
+  private UsuarioServices usuarioServices;
 
   @Autowired
   private JwtService jwtService;
 
+  @Autowired
   private AuthenticationManager authenticationManager;
 
-  public AuthResponseDTO register(AuthRequestDTO request) {
+  public UserResponseDTO register(UserRequestDTO request) {
     var user = Usuario
       .builder()
       .email(request.getEmail())
       .senha(request.getSenha())
       .build();
 
-    usuarioRepository.save(user);
+    usuarioServices.create(user);
     // repository.save(user);
     // var jwtToken = jwtService.generateToken()
     var jwtToken = jwtService.generateToken(user);
 
-    return AuthResponseDTO.builder().token(jwtToken).build();
+    return UserResponseDTO
+      .builder()
+      .email(user.getEmail())
+      .token(jwtToken)
+      .build();
   }
 
-  public AuthResponseDTO authenticate(AuthRequestDTO request) {
+  public UserResponseDTO authenticate(UserRequestDTO request) {
     authenticationManager.authenticate(
       new UsernamePasswordAuthenticationToken(
         request.getEmail(),
         request.getSenha()
       )
     );
-    var user = usuarioRepository.findByEmail(request.getEmail()).orElseThrow();
+    var user = usuarioServices.findByEmail(request.getEmail());
     var jwtToken = jwtService.generateToken(user);
 
-    return AuthResponseDTO.builder().token(jwtToken).build();
+    return UserResponseDTO.builder().token(jwtToken).build();
   }
 }

@@ -5,30 +5,52 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity(name = "pessoa")
+@Table(name = "pessoa")
 public class Pessoa {
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
+  @Column(unique = true, nullable = false)
   private String nome;
+
+  @Column(unique = true, nullable = false)
   private String sobrenome;
+
+  @Column(unique = true, nullable = false)
   private String genero;
-  private Date data_nascimento;
+
+  @Column(nullable = false)
+  private LocalDateTime data_nascimento;
+
+  @Column(unique = true, nullable = false)
   private String inscricao;
 
-  @Column(updatable = false)
+  @Column(nullable = false)
   @CreationTimestamp
   private LocalDateTime created_at;
 
   @UpdateTimestamp
+  @Column(nullable = false)
   private LocalDateTime update_at;
+
+  //===================================================
+
+  // @OneToMany(mappedBy = "pessoa")
+  // private List<Endereco> enderecos = new ArrayList<>();
+
+  //===================================================
 
   public Pessoa() {}
 
@@ -44,7 +66,7 @@ public class Pessoa {
     this.nome = nome;
     this.sobrenome = sobrenome;
     this.genero = genero;
-    this.data_nascimento = data_nascimento;
+
     this.inscricao = inscricao;
   }
 
@@ -78,14 +100,6 @@ public class Pessoa {
 
   public void setGenero(String genero) {
     this.genero = genero;
-  }
-
-  public Date getData_nascimento() {
-    return data_nascimento;
-  }
-
-  public void setData_nascimento(Date data_nascimento) {
-    this.data_nascimento = data_nascimento;
   }
 
   public String getInscricao() {

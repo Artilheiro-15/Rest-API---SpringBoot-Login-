@@ -5,6 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,7 +28,6 @@ public class Endereco implements Serializable {
   private String cidade;
   private String estado;
   private String pais;
-  private Integer pessoa_id;
 
   @Column(updatable = false)
   @CreationTimestamp
@@ -32,6 +35,13 @@ public class Endereco implements Serializable {
 
   @UpdateTimestamp
   private LocalDateTime update_at;
+
+  //===================================================
+  // @OneToOne
+  // @PrimaryKeyJoinColumn
+  // private Pessoa pessoa;
+
+  //===================================================
 
   public Endereco() {}
 
@@ -56,7 +66,6 @@ public class Endereco implements Serializable {
     this.cidade = cidade;
     this.estado = estado;
     this.pais = pais;
-    this.pessoa_id = pessoa_id;
     this.created_at = created_at;
     this.update_at = update_at;
   }
@@ -125,14 +134,6 @@ public class Endereco implements Serializable {
     this.pais = pais;
   }
 
-  public Integer getPessoa_id() {
-    return pessoa_id;
-  }
-
-  public void setPessoa_id(Integer pessoa_id) {
-    this.pessoa_id = pessoa_id;
-  }
-
   public LocalDateTime getCreated_at() {
     return created_at;
   }
@@ -147,25 +148,5 @@ public class Endereco implements Serializable {
 
   public void setUpdate_at(LocalDateTime update_at) {
     this.update_at = update_at;
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((pessoa_id == null) ? 0 : pessoa_id.hashCode());
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
-    Endereco other = (Endereco) obj;
-    if (pessoa_id == null) {
-      if (other.pessoa_id != null) return false;
-    } else if (!pessoa_id.equals(other.pessoa_id)) return false;
-    return true;
   }
 }

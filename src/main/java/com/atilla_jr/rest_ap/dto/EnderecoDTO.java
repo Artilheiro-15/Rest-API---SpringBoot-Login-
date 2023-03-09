@@ -37,7 +37,7 @@ public class EnderecoDTO implements Serializable {
     this.cidade = obj.getCidade();
     this.estado = obj.getEstado();
     this.pais = obj.getPais();
-    this.pessoa_id = obj.getPessoa_id();
+    //  this.pessoa_id = obj.getPessoa_id();
     this.created_at = obj.getCreated_at();
     this.update_at = obj.getUpdate_at();
   }

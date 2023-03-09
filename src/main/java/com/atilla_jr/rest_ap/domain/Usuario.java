@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +33,6 @@ public class Usuario implements UserDetails {
 
   private String email;
   private String senha;
-  private String pessoa_id;
 
   @Column(updatable = false)
   @CreationTimestamp
@@ -40,6 +41,12 @@ public class Usuario implements UserDetails {
   @UpdateTimestamp
   private LocalDateTime update_at;
 
+  //===================================================
+  // @OneToOne
+  // @PrimaryKeyJoinColumn
+  // private Pessoa pessoa;
+
+  //===================================================
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority("default"));

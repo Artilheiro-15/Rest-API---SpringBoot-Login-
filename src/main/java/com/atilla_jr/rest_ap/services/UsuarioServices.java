@@ -5,6 +5,7 @@ import com.atilla_jr.rest_ap.dto.UsuarioDTO;
 import com.atilla_jr.rest_ap.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,20 +13,49 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsuarioServices {
 
   @Autowired
-  private UsuarioRepository repo;
+  private UsuarioRepository usuarioRepository;
 
   @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  private PasswordEncoder bCryptPasswordEncoder;
 
   @Transactional(rollbackFor = Exception.class)
   public Integer saveDto(UsuarioDTO usuarioDTO) {
     usuarioDTO.setSenha(bCryptPasswordEncoder.encode(usuarioDTO.getSenha()));
 
-    return save(fromDTO(usuarioDTO)).getId();
+    return create(fromDTO(usuarioDTO)).getId();
   }
 
-  public Usuario save(Usuario obj) {
-    return repo.save(obj);
+  @Transactional
+  public Usuario create(Usuario obj) {
+    obj.setSenha(bCryptPasswordEncoder.encode(obj.getSenha()));
+    return usuarioRepository.save(obj);
+  }
+
+  // @Transactional
+  // public Usuario create(Usuario obj) {
+  //   obj.setId(null);
+
+  //   // obj.setProfiles(
+  //   //   Stream.of(ProfileEnum.USER.getCode()).collect(Collectors.toSet())
+  //   // );
+  //   obj = this.usuarioRepository.save(obj);
+  //   return obj;
+  // }
+
+  @Transactional
+  public Usuario update(Usuario obj) {
+    Usuario newObj = findById(obj.getId());
+    newObj.setSenha(obj.getPassword());
+    newObj.setSenha(bCryptPasswordEncoder.encode(obj.getPassword()));
+    return this.usuarioRepository.save(newObj);
+  }
+
+  private Usuario findById(Integer id) {
+    return null;
+  }
+
+  public Usuario findByEmail(String email) {
+    return this.usuarioRepository.findByEmail(email).orElseThrow();
   }
 
   public Usuario fromDTO(UsuarioDTO objDto) {

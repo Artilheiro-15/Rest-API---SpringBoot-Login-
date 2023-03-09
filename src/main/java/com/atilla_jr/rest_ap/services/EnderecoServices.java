@@ -68,9 +68,9 @@ public class EnderecoServices {
     if (!(obj.getPais() != null)) {
       obj.setPais(newObj.getPais());
     }
-    if (!(obj.getPessoa_id() != null)) {
-      obj.setPessoa_id(newObj.getPessoa_id());
-    }
+    // if (!(obj.getPessoa_id() != null)) {
+    //   obj.setPessoa_id(newObj.getPessoa_id());
+    // }
     if (!(obj.getCreated_at() != null)) {
       obj.setCreated_at(newObj.getCreated_at());
     }

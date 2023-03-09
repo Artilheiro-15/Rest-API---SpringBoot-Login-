@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthRequestDTO {
+public class UserRequestDTO {
 
   @NotNull
   @Size(
