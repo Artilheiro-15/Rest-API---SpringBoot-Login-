@@ -4,6 +4,7 @@ import com.atilla_jr.rest_ap.domain.Pessoa;
 import com.atilla_jr.rest_ap.dto.PessoaDTO;
 import com.atilla_jr.rest_ap.exception.ObjectNotFoundException;
 import com.atilla_jr.rest_ap.repository.PessoaRepository;
+import java.time.ZoneId;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +23,23 @@ public class PessoaService {
   public Pessoa findById(String id) {
     Optional<Pessoa> obj = repo.findById(id);
     return obj.orElseThrow(() ->
-      new ObjectNotFoundException("Objeto não encontrado")
+      new ObjectNotFoundException("Objeto não encontrado id: " + id)
     );
   }
 
   public Pessoa save(Pessoa obj) {
-    return repo.save(obj);
+    if (obj == obj) {
+      System.out.println(obj + "ja existi");
+    } else {
+      return repo.save(obj);
+    }
+    return null;
   }
 
   public void delete(String id) {
     findById(id);
 
-    repo.deleteById(id);
+    repo.deleteById("Deletado com sucesso! id: " + id);
   }
 
   public Pessoa update(Pessoa obj, Object id) {
@@ -68,13 +74,20 @@ public class PessoaService {
   }
 
   public Pessoa fromDTO(PessoaDTO objDto) {
-    return new Pessoa(
-      objDto.getId(),
-      objDto.getNome(),
-      objDto.getSobrenome(),
-      objDto.getGenero(),
-      objDto.getData_nascimento(),
-      objDto.getIncricao()
-    );
+    return Pessoa
+      .builder()
+      .id(objDto.getId())
+      .nome(objDto.getNome())
+      .sobrenome(objDto.getSobrenome())
+      .genero(objDto.getGenero())
+      .dataNascimento(
+        objDto
+          .getDataNascimento()
+          .toInstant()
+          .atZone(ZoneId.systemDefault())
+          .toLocalDateTime()
+      )
+      .inscricao(objDto.getInscricao())
+      .build();
   }
 }

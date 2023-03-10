@@ -41,9 +41,7 @@ public class EnderecoResources {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public ResponseEntity<String> delete(@PathVariable String id) {
     service.delete(id);
-    return ResponseEntity
-      .ok()
-      .body("Endereço " + id + " Deletado com sucesso!");
+    return ResponseEntity.ok().body("Id: " + id + " Do Endereço Deletado!");
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)

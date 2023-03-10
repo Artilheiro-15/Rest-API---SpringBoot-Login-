@@ -5,8 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -42,9 +42,9 @@ public class Usuario implements UserDetails {
   private LocalDateTime update_at;
 
   //===================================================
-  // @OneToOne
-  // @PrimaryKeyJoinColumn
-  // private Pessoa pessoa;
+  @OneToOne
+  @JoinColumn(name = "pessoa_id", nullable = false)
+  private Pessoa pessoa;
 
   //===================================================
   @Override

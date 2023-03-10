@@ -14,7 +14,7 @@ public class PessoaDTO implements Serializable {
   private String genero;
 
   @JsonFormat(pattern = "dd/MM/yyyy")
-  private Date data_nascimento;
+  private Date dataNascimento;
 
   private String inscricao;
 
@@ -70,19 +70,19 @@ public class PessoaDTO implements Serializable {
     this.genero = genero;
   }
 
-  public Date getData_nascimento() {
-    return data_nascimento;
+  public Date getDataNascimento() {
+    return dataNascimento;
   }
 
-  public void setData_nascimento(Date data_nascimento) {
-    this.data_nascimento = data_nascimento;
+  public void setDataNascimento(Date data_nascimento) {
+    this.dataNascimento = data_nascimento;
   }
 
-  public String getIncricao() {
+  public String getInscricao() {
     return inscricao;
   }
 
-  public void setIncricao(String incricao) {
+  public void setInscricao(String incricao) {
     this.inscricao = incricao;
   }
 

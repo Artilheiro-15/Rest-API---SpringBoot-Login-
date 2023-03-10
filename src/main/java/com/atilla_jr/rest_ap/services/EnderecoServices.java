@@ -80,18 +80,16 @@ public class EnderecoServices {
   }
 
   public Endereco fromDTO(EnderecoDTO objDto) {
-    return new Endereco(
-      objDto.getId(),
-      objDto.getLogadouro(),
-      objDto.getNumero(),
-      objDto.getComplemento(),
-      objDto.getBairro(),
-      objDto.getCidade(),
-      objDto.getEstado(),
-      objDto.getPais(),
-      objDto.getPessoa_id(),
-      objDto.getCreated_at(),
-      objDto.getUpdate_at()
-    );
+    return Endereco
+      .builder()
+      .id(objDto.getId())
+      .logadouro(objDto.getLogadouro())
+      .numero(objDto.getNumero())
+      .complemento(objDto.getComplemento())
+      .bairro(objDto.getBairro())
+      .cidade(objDto.getCidade())
+      .estado(objDto.getEstado())
+      .pais(objDto.getPais())
+      .build();
   }
 }

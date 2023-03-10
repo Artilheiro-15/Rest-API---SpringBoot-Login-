@@ -11,10 +11,18 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity(name = "endereco")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Endereco implements Serializable {
 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,38 +45,11 @@ public class Endereco implements Serializable {
   private LocalDateTime update_at;
 
   //===================================================
-  // @OneToOne
-  // @PrimaryKeyJoinColumn
-  // private Pessoa pessoa;
+  @OneToOne
+  @JoinColumn(name = "pessoa_id")
+  private Pessoa pessoa;
 
   //===================================================
-
-  public Endereco() {}
-
-  public Endereco(
-    Integer id,
-    String logadouro,
-    String numero,
-    String complemento,
-    String bairrro,
-    String cidade,
-    String estado,
-    String pais,
-    Integer pessoa_id,
-    LocalDateTime created_at,
-    LocalDateTime update_at
-  ) {
-    this.id = id;
-    this.logadouro = logadouro;
-    this.numero = numero;
-    this.complemento = complemento;
-    this.bairro = bairrro;
-    this.cidade = cidade;
-    this.estado = estado;
-    this.pais = pais;
-    this.created_at = created_at;
-    this.update_at = update_at;
-  }
 
   public Integer getId() {
     return id;

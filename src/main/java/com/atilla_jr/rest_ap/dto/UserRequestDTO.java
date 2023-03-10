@@ -28,4 +28,6 @@ public class UserRequestDTO {
     message = "password size should be between" + " 5 and 32 digit or character"
   )
   private String senha;
+
+  private PessoaDTO pessoa;
 }
