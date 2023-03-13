@@ -58,11 +58,14 @@ public class AuthService {
     var user = usuarioServices.findByEmail(request.getEmail());
     var jwtToken = jwtService.generateToken(user);
 
-    if (user == null || jwtToken == null) {
-      System.out.println("Authenticate falhou");
-    } else {
-      return UserResponseDTO.builder().token(jwtToken).build();
-    }
-    return null;
+    return UserResponseDTO.builder().token(jwtToken).build();
+    //}
+
+    // if (user == null || jwtToken == null) {
+    //   System.out.println("Authenticate falhou");
+    // } else {
+    //   return UserResponseDTO.builder().token(jwtToken).build();
+    // }
+    // return null;
   }
 }

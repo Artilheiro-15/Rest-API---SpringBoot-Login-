@@ -1,5 +1,6 @@
 package com.atilla_jr.rest_ap.security;
 
+import com.atilla_jr.rest_ap.exception.JwtExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,14 @@ public class SecurityConfiguration {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
+  @Autowired
+  private JwtExceptionHandler jwtExceptionHandler;
+
+  // @Bean
+  // public Http401AuthenticationEntryPoint securityException401EntryPoint() {
+  //   return new Http401AuthenticationEntryPoint("Bearer realm=\"webrealm\"");
+  // }
+
   @Bean
   protected SecurityFilterChain securityFilterChain(HttpSecurity http)
     throws Exception {
@@ -41,7 +50,9 @@ public class SecurityConfiguration {
       .addFilterBefore(
         jwtAuthFilter,
         UsernamePasswordAuthenticationFilter.class
-      );
+      )
+      .exceptionHandling()
+      .authenticationEntryPoint(jwtExceptionHandler);
 
     return http.build();
   }

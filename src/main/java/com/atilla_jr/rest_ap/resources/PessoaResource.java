@@ -46,8 +46,16 @@ public class PessoaResource {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public ResponseEntity<String> delete(@PathVariable String id) {
-    service.delete(id);
-    return ResponseEntity.ok().body("Id " + id + " Deletada com sucesso!");
+    try {
+      service.delete(id);
+      return ResponseEntity.ok().body("Id " + id + " Deletada com sucesso!");
+    } catch (Exception e) {
+      return ResponseEntity
+        .badRequest()
+        .body(
+          "Aconteceu um erro ao tentar deletar o usuário. " + e.getMessage()
+        );
+    }
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)

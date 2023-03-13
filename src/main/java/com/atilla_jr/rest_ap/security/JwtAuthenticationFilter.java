@@ -1,5 +1,6 @@
 package com.atilla_jr.rest_ap.security;
 
+import com.atilla_jr.rest_ap.exception.JwtExceptionHandler;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +26,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final UserDetailsService userDetailsService;
 
+  @Autowired
+  private JwtExceptionHandler exceptionResolver;
+
   @Override
   protected void doFilterInternal(
     @NonNull HttpServletRequest request,
@@ -39,6 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
     jwt = authHeader.substring(7);
+
     userEmail = jwtService.extractUsername(jwt);
     if (
       userEmail != null &&
@@ -58,6 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authToken);
       }
     }
+
     filterChain.doFilter(request, response);
   }
 }

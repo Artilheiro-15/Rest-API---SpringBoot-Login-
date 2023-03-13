@@ -28,12 +28,7 @@ public class PessoaService {
   }
 
   public Pessoa save(Pessoa obj) {
-    if (obj == obj) {
-      System.out.println(obj + "ja existi");
-    } else {
-      return repo.save(obj);
-    }
-    return null;
+    return repo.save(obj);
   }
 
   public void delete(String id) {
