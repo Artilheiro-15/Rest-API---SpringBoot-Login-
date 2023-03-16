@@ -7,8 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -25,8 +23,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor
 public class Endereco implements Serializable {
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   private String logadouro;
@@ -45,7 +43,7 @@ public class Endereco implements Serializable {
   private LocalDateTime update_at;
 
   //===================================================
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "pessoa_id")
   private Pessoa pessoa;
 

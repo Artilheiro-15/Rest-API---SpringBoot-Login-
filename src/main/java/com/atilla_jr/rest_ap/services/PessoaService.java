@@ -1,20 +1,35 @@
 package com.atilla_jr.rest_ap.services;
 
+import com.atilla_jr.rest_ap.domain.Endereco;
 import com.atilla_jr.rest_ap.domain.Pessoa;
+import com.atilla_jr.rest_ap.domain.Usuario;
 import com.atilla_jr.rest_ap.dto.PessoaDTO;
 import com.atilla_jr.rest_ap.exception.ObjectNotFoundException;
 import com.atilla_jr.rest_ap.repository.PessoaRepository;
+import com.atilla_jr.rest_ap.repository.UsuarioRepository;
 import java.time.ZoneId;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 @Service
+@ComponentScan
 public class PessoaService {
 
   @Autowired
   private PessoaRepository repo;
+
+  @Autowired
+  private UsuarioRepository usuarioRepository;
+
+  @Autowired
+  private UsuarioServices usuarioServices;
+
+  public boolean existsPessoaWithUsuarioOrEndereco(String id) {
+    return repo.existsByIdAndUsuarioIsNotNullOrEnderecoIsNotNull(id);
+  }
 
   public Iterable<Pessoa> findAll() {
     return repo.findAll();
@@ -32,9 +47,41 @@ public class PessoaService {
   }
 
   public void delete(String id) {
-    findById(id);
+    Pessoa pessoa = repo
+      .findById(id)
+      .orElseThrow(() -> new RuntimeException("Pessoa não foi encontrada"));
+    usuarioServices.deleteByPessoaId(pessoa.getId());
+    //   // Obtém o id do Usuario associado à Pessoa
+    //   Integer usuarioId = pessoa.getUsuario().getId();
 
-    repo.deleteById("Deletado com sucesso! id: " + id);
+    //   // Remove a associação entre Usuario e Pessoa
+    //   Usuario usuario = usuarioRepository
+    //     .findById(usuarioId)
+    //     .orElseThrow(() -> new RuntimeException("Usuário não foi encontrado"));
+    //   usuario.getPessoa().remove(pessoa);
+
+    //   // Remove a associação entre Endereco e Pessoa
+    //   Endereco endereco = pessoa.getEndereco();
+    //   endereco.setPessoa(null);
+
+    //   // Exclui a entidade Pessoa da base de dados
+    //   repo.delete(pessoa);
+    // }
+
+    // public void delete(String id) {
+    //   Pessoa pessoa = repo
+    //     .findById(id)
+    //     .orElseThrow(() -> new RuntimeException("Pessoa não foi encontrada"));
+
+    //   // primeiro remove as associações
+    //   pessoa.setUsuario(null);
+    //   pessoa.setEndereco(null);
+    //   repo.save(pessoa);
+
+    //   // depois exclui a pessoa
+    //   repo.delete(pessoa);
+    // }
+
   }
 
   public Pessoa update(Pessoa obj, Object id) {

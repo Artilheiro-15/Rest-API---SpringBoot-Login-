@@ -30,4 +30,6 @@ public class UserRequestDTO {
   private String senha;
 
   private PessoaDTO pessoa;
+
+  private EnderecoDTO endereco;
 }

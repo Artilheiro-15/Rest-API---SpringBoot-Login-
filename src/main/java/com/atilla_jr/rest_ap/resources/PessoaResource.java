@@ -44,17 +44,26 @@ public class PessoaResource {
     return ResponseEntity.ok().body(obj);
   }
 
+  // @DeleteMapping("/{id}")
+  // public ResponseEntity<Void> delete(@PathVariable String id) {
+  //   if (service.existsPessoaWithUsuarioOrEndereco(id)) {
+  //     return ResponseEntity.badRequest().build();
+  //   }
+  //   service.delete(id);
+  //   return ResponseEntity.noContent().build();
+  // }
+
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public ResponseEntity<String> delete(@PathVariable String id) {
     try {
       service.delete(id);
-      return ResponseEntity.ok().body("Id " + id + " Deletada com sucesso!");
+      return ResponseEntity
+        .ok()
+        .body("Pessoa do Id " + id + " Deletado com sucesso!");
     } catch (Exception e) {
       return ResponseEntity
         .badRequest()
-        .body(
-          "Aconteceu um erro ao tentar deletar o usuário. " + e.getMessage()
-        );
+        .body("Aconteceu um erro ao tentar deletar " + e.getMessage());
     }
   }
 

@@ -35,7 +35,7 @@ public class PessoaDTO implements Serializable {
     //  data_nascimento = obj.getData_nascimento();
     inscricao = obj.getInscricao();
     created_at = obj.getCreated_at();
-    update_at = obj.getupdate_at();
+    update_at = obj.getUpdate_at();
   }
 
   public Integer getId() {

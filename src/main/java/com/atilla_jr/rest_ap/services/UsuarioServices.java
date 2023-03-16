@@ -1,5 +1,6 @@
 package com.atilla_jr.rest_ap.services;
 
+import com.atilla_jr.rest_ap.domain.Pessoa;
 import com.atilla_jr.rest_ap.domain.Usuario;
 import com.atilla_jr.rest_ap.dto.UsuarioDTO;
 import com.atilla_jr.rest_ap.repository.UsuarioRepository;
@@ -40,6 +41,11 @@ public class UsuarioServices {
   //   obj = this.usuarioRepository.save(obj);
   //   return obj;
   // }
+
+  public void deleteByPessoaId(Integer id) {
+    var user = usuarioRepository.findByPessoaId(id).get();
+    usuarioRepository.deleteById(user.getId());
+  }
 
   @Transactional
   public Usuario update(Usuario obj) {

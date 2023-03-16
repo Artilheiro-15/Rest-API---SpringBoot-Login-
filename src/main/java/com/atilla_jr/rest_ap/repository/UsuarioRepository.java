@@ -14,6 +14,12 @@ import org.springframework.stereotype.Repository;
 //   public Optional<UsuarioModel> findByLogin(String login);
 // }
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, String> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
   Optional<Usuario> findByEmail(String email);
+  Optional<Usuario> findById(Integer usuarioId);
+  Optional<Usuario> findByPessoaId(Integer pessoaId);
 }
+// @Repository
+// public interface PessoaRepository extends CrudRepository<Pessoa, String> {
+//   boolean existsByIdAndUsuarioIsNotNullOrEnderecoIsNotNull(String id);
+// }
