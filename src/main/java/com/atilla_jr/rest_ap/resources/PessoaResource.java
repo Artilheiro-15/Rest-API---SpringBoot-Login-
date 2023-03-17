@@ -2,6 +2,7 @@ package com.atilla_jr.rest_ap.resources;
 
 import com.atilla_jr.rest_ap.domain.Pessoa;
 import com.atilla_jr.rest_ap.dto.PessoaDTO;
+import com.atilla_jr.rest_ap.exception.ObjectNotFoundException;
 import com.atilla_jr.rest_ap.services.PessoaService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,36 +23,39 @@ public class PessoaResource {
 
   @RequestMapping(method = RequestMethod.GET)
   public ResponseEntity<List<PessoaDTO>> findAll() {
-    List<Pessoa> list = (List<Pessoa>) service.findAll();
-    List<PessoaDTO> listDto = list
-      .stream()
-      .map(x -> new PessoaDTO(x))
-      .collect(Collectors.toList());
-    return ResponseEntity.ok().body(listDto);
+    try {
+      List<Pessoa> list = (List<Pessoa>) service.findAll();
+      List<PessoaDTO> listDto = list
+        .stream()
+        .map(x -> new PessoaDTO(x))
+        .collect(Collectors.toList());
+      return ResponseEntity.ok().body(listDto);
+    } catch (ObjectNotFoundException e) {
+      return ResponseEntity.notFound().build();
+    }
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public ResponseEntity<PessoaDTO> findById(@PathVariable String id) {
-    Pessoa obj = service.findById(id);
-    return ResponseEntity.ok().body(new PessoaDTO(obj));
+    try {
+      Pessoa obj = service.findById(id);
+      return ResponseEntity.ok().body(new PessoaDTO(obj));
+    } catch (ObjectNotFoundException e) {
+      return ResponseEntity.notFound().build();
+    }
   }
 
   @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity<Pessoa> save(@RequestBody PessoaDTO objDto) {
-    Pessoa obj = service.fromDTO(objDto);
-    obj = service.save(obj);
+    try {
+      Pessoa obj = service.fromDTO(objDto);
+      obj = service.save(obj);
 
-    return ResponseEntity.ok().body(obj);
+      return ResponseEntity.ok().body(obj);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(null);
+    }
   }
-
-  // @DeleteMapping("/{id}")
-  // public ResponseEntity<Void> delete(@PathVariable String id) {
-  //   if (service.existsPessoaWithUsuarioOrEndereco(id)) {
-  //     return ResponseEntity.badRequest().build();
-  //   }
-  //   service.delete(id);
-  //   return ResponseEntity.noContent().build();
-  // }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public ResponseEntity<String> delete(@PathVariable String id) {
@@ -68,13 +72,17 @@ public class PessoaResource {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-  public ResponseEntity<Pessoa> update(
+  public ResponseEntity<Pessoa> String(
     @RequestBody PessoaDTO objDto,
     @PathVariable Integer id
   ) {
-    Pessoa obj = service.fromDTO(objDto);
-    obj.setId(id);
-    obj = service.update(obj, obj);
-    return ResponseEntity.ok().body(obj);
+    try {
+      Pessoa obj = service.fromDTO(objDto);
+      obj.setId(id);
+      obj = service.update(obj, obj);
+      return ResponseEntity.ok().body(obj);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(null);
+    }
   }
 }

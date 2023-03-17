@@ -1,13 +1,18 @@
 package com.atilla_jr.rest_ap.dto;
 
 import com.atilla_jr.rest_ap.domain.Endereco;
+import com.atilla_jr.rest_ap.repository.EnderecoRepository;
 import jakarta.persistence.Column;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class EnderecoDTO implements Serializable {
+
+  @Autowired
+  private EnderecoRepository repo;
 
   private Integer id;
   private String logadouro;
@@ -17,7 +22,8 @@ public class EnderecoDTO implements Serializable {
   private String cidade;
   private String estado;
   private String pais;
-  private Integer pessoa_id;
+
+  // private Integer pessoa_id;
 
   @Column(updatable = false)
   @CreationTimestamp
@@ -30,14 +36,14 @@ public class EnderecoDTO implements Serializable {
 
   public EnderecoDTO(Endereco obj) {
     this.id = obj.getId();
-    this.logadouro = obj.getLogadouro();
+    this.logadouro = obj.getLogradouro();
     this.numero = obj.getNumero();
     this.complemento = obj.getComplemento();
     this.bairro = obj.getBairro();
     this.cidade = obj.getCidade();
     this.estado = obj.getEstado();
     this.pais = obj.getPais();
-    //  this.pessoa_id = obj.getPessoa_id();
+    //this.pessoa_id = obj.getPessoa_id();
     this.created_at = obj.getCreated_at();
     this.update_at = obj.getUpdate_at();
   }
@@ -50,7 +56,7 @@ public class EnderecoDTO implements Serializable {
     this.id = id;
   }
 
-  public String getLogadouro() {
+  public String getLogradouro() {
     return logadouro;
   }
 
@@ -106,14 +112,16 @@ public class EnderecoDTO implements Serializable {
     this.pais = pais;
   }
 
-  public Integer getPessoa_id() {
-    return pessoa_id;
-  }
+  //------------------------------------------------------
+  // public Integer getPessoa_id() {
+  //   return pessoa_id;
+  // }
 
-  public void setPessoa_id(Integer pessoa_id) {
-    this.pessoa_id = pessoa_id;
-  }
+  // public void setPessoa_id(Integer pessoa_id) {
+  //   this.pessoa_id = pessoa_id;
+  // }
 
+  //-----------------------------------------------
   public LocalDateTime getCreated_at() {
     return created_at;
   }
@@ -128,5 +136,20 @@ public class EnderecoDTO implements Serializable {
 
   public void setUpdate_at(LocalDateTime update_at) {
     this.update_at = update_at;
+  }
+
+  public Endereco createEndereco(EnderecoDTO enderecoDTO) {
+    var endereco = Endereco
+      .builder()
+      .logradouro(enderecoDTO.getLogradouro())
+      .numero(enderecoDTO.getNumero())
+      .complemento(enderecoDTO.getComplemento())
+      .bairro(enderecoDTO.getBairro())
+      .cidade(enderecoDTO.getCidade())
+      .estado(enderecoDTO.getEstado())
+      .pais(enderecoDTO.getPais())
+      .build();
+
+    return repo.save(endereco);
   }
 }

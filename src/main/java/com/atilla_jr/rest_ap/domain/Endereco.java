@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -17,24 +19,48 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity(name = "endereco")
+@Table(name = "endereco")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Endereco implements Serializable {
+public class Endereco {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
-  private String logadouro;
+  @Column(nullable = false)
+  private String logradouro;
+
+  @Column(nullable = false)
   private String numero;
+
+  @Column(nullable = false)
   private String complemento;
+
+  @Column(nullable = false)
   private String bairro;
+
+  @Column(nullable = false)
   private String cidade;
+
+  @Column(nullable = false)
   private String estado;
+
+  @Column(nullable = false)
   private String pais;
 
+  //-----------------------------------------------------
+
+  // @OneToOne
+  // @JoinColumn(name = "pessoa_id", nullable = false)
+  // private Pessoa pessoa_id;
+
+  // @Column(name = "pessoa_id", insertable = false, updatable = false)
+  // private Long pessoaId;
+
+  //-------------------------------------
   @Column(updatable = false)
   @CreationTimestamp
   private LocalDateTime created_at;
@@ -43,8 +69,12 @@ public class Endereco implements Serializable {
   private LocalDateTime update_at;
 
   //===================================================
-  @ManyToOne
-  @JoinColumn(name = "pessoa_id")
+  // @ManyToOne
+  // @JoinColumn(name = "pessoa_id")
+  // private Pessoa pessoa;
+
+  @OneToOne
+  @JoinColumn(name = "pessoa_id", nullable = false)
   private Pessoa pessoa;
 
   //===================================================
@@ -57,12 +87,12 @@ public class Endereco implements Serializable {
     this.id = id;
   }
 
-  public String getLogadouro() {
-    return logadouro;
+  public String getLogradouro() {
+    return logradouro;
   }
 
-  public void setLogadouro(String logadouro) {
-    this.logadouro = logadouro;
+  public void setLogadouro(String logradouro) {
+    this.logradouro = logradouro;
   }
 
   public String getNumero() {

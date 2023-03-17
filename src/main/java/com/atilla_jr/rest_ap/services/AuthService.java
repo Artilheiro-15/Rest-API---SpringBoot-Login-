@@ -1,5 +1,6 @@
 package com.atilla_jr.rest_ap.services;
 
+import com.atilla_jr.rest_ap.domain.Endereco;
 import com.atilla_jr.rest_ap.domain.Usuario;
 import com.atilla_jr.rest_ap.dto.UserRequestDTO;
 import com.atilla_jr.rest_ap.dto.UserResponseDTO;
@@ -24,10 +25,29 @@ public class AuthService {
   private JwtService jwtService;
 
   @Autowired
+  private EnderecoServices enderecoServices;
+
+  @Autowired
   private AuthenticationManager authenticationManager;
 
   public UserResponseDTO register(UserRequestDTO request) {
-    var pessoa = pessoaService.save(pessoaService.fromDTO(request.getPessoa()));
+    var pessoa = pessoaService.save(pessoaService.fromDTO(request.getPessoa())); ////////////////////////
+
+    //var endereco = EnderecoServices.save(usuarioServices.fromDTO(request.getUsuario()));
+
+    var endereco = Endereco
+      .builder()
+      .estado(request.getEndereco().getEstado())
+      .complemento(request.getEndereco().getComplemento())
+      .logradouro(request.getEndereco().getLogradouro())
+      .numero(request.getEndereco().getNumero())
+      .bairro(request.getEndereco().getBairro())
+      .cidade(request.getEndereco().getCidade())
+      .pais(request.getEndereco().getPais())
+      .pessoa(pessoa)
+      .build();
+
+    enderecoServices.save(endereco);
 
     var user = Usuario
       .builder()
@@ -47,6 +67,8 @@ public class AuthService {
       .token(jwtToken)
       .build();
   }
+
+  //------------------------------------------------------
 
   public UserResponseDTO authenticate(UserRequestDTO request) {
     authenticationManager.authenticate(

@@ -46,9 +46,29 @@ public class EnderecoServices {
     return repo.save(obj);
   }
 
+  //------------------------------------------------------------------
+
+  public Endereco createEndereco(EnderecoDTO enderecoDTO) {
+    var endereco = Endereco
+      .builder()
+      .id(enderecoDTO.getId())
+      .logradouro(enderecoDTO.getLogradouro())
+      .numero(enderecoDTO.getNumero())
+      .complemento(enderecoDTO.getComplemento())
+      .bairro(enderecoDTO.getBairro())
+      .cidade(enderecoDTO.getCidade())
+      .estado(enderecoDTO.getEstado())
+      .pais(enderecoDTO.getPais())
+      .build();
+
+    return repo.save(endereco);
+  }
+
+  //-------------------------------------------------------------
+
   private void updateData(Endereco newObj, Endereco obj) {
-    if (!(obj.getLogadouro() != null)) {
-      obj.setLogadouro(newObj.getLogadouro());
+    if (!(obj.getLogradouro() != null)) {
+      obj.setLogadouro(newObj.getLogradouro());
     }
     if (!(obj.getNumero() != null)) {
       obj.setNumero(newObj.getNumero());
@@ -83,7 +103,7 @@ public class EnderecoServices {
     return Endereco
       .builder()
       .id(objDto.getId())
-      .logadouro(objDto.getLogadouro())
+      .logradouro(objDto.getLogradouro())
       .numero(objDto.getNumero())
       .complemento(objDto.getComplemento())
       .bairro(objDto.getBairro())
@@ -93,3 +113,7 @@ public class EnderecoServices {
       .build();
   }
 }
+// public void create(Object endereco) {
+//   return repo.create(endereco);
+// }
+// }

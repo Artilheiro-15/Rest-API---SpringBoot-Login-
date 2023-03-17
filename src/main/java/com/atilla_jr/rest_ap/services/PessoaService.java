@@ -1,12 +1,9 @@
 package com.atilla_jr.rest_ap.services;
 
-import com.atilla_jr.rest_ap.domain.Endereco;
 import com.atilla_jr.rest_ap.domain.Pessoa;
-import com.atilla_jr.rest_ap.domain.Usuario;
 import com.atilla_jr.rest_ap.dto.PessoaDTO;
 import com.atilla_jr.rest_ap.exception.ObjectNotFoundException;
 import com.atilla_jr.rest_ap.repository.PessoaRepository;
-import com.atilla_jr.rest_ap.repository.UsuarioRepository;
 import java.time.ZoneId;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -21,8 +18,8 @@ public class PessoaService {
   @Autowired
   private PessoaRepository repo;
 
-  @Autowired
-  private UsuarioRepository usuarioRepository;
+  // @Autowired
+  // private UsuarioRepository usuarioRepository;
 
   @Autowired
   private UsuarioServices usuarioServices;

@@ -42,9 +42,17 @@ public class Usuario implements UserDetails {
   private LocalDateTime update_at;
 
   //===================================================
+
   @OneToOne
   @JoinColumn(name = "pessoa_id", nullable = false)
   private Pessoa pessoa;
+
+  @OneToOne
+  private Endereco endereco;
+
+  public void setEndereco(Endereco endereco) {
+    this.endereco = endereco;
+  }
 
   //===================================================
   @Override

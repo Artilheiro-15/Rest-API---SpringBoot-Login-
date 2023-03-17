@@ -1,6 +1,5 @@
 package com.atilla_jr.rest_ap.services;
 
-import com.atilla_jr.rest_ap.domain.Pessoa;
 import com.atilla_jr.rest_ap.domain.Usuario;
 import com.atilla_jr.rest_ap.dto.UsuarioDTO;
 import com.atilla_jr.rest_ap.repository.UsuarioRepository;

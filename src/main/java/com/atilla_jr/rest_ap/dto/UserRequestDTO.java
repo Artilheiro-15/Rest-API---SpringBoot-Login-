@@ -1,5 +1,7 @@
 package com.atilla_jr.rest_ap.dto;
 
+import com.atilla_jr.rest_ap.domain.Endereco;
+import com.atilla_jr.rest_ap.domain.Usuario;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -7,10 +9,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class UserRequestDTO {
 
   @NotNull
@@ -31,5 +33,11 @@ public class UserRequestDTO {
 
   private PessoaDTO pessoa;
 
-  private EnderecoDTO endereco;
+  private EnderecoDTO enderecoDto;
+
+  private UsuarioDTO usuarioDto;
+
+  private Usuario usuario;
+
+  private Endereco endereco;
 }
