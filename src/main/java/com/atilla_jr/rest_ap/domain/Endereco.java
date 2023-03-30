@@ -1,5 +1,6 @@
 package com.atilla_jr.rest_ap.domain;
 
+import com.atilla_jr.rest_ap.domain.Usuario;
 import com.atilla_jr.rest_ap.repository.PessoaRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -92,6 +93,10 @@ public class Endereco {
 
   //===================================================
   //===================================================
+
+  // public void setUsuario(Usuario usuario) {
+  //   this.usuario = usuario;
+  // }
 
   public Integer getId() {
     return id;

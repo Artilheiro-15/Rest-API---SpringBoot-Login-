@@ -58,6 +58,11 @@ public class EnderecoServices {
     );
   }
 
+  // public void create(Endereco endereco, Usuario usuario) {
+  //   endereco.setUsuario(usuario);
+  //   repo.save(endereco);
+  // }
+
   public Iterable<Endereco> findAll() {
     return repo.findAll();
   }

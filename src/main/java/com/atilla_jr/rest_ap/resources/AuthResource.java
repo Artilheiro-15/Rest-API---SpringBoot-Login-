@@ -1,6 +1,7 @@
 package com.atilla_jr.rest_ap.resources;
 
 import com.atilla_jr.rest_ap.domain.Usuario;
+import com.atilla_jr.rest_ap.dto.ErrorResponseDTO;
 import com.atilla_jr.rest_ap.dto.UserRequestDTO;
 import com.atilla_jr.rest_ap.dto.UserResponseDTO;
 import com.atilla_jr.rest_ap.dto.UsuarioDTO;
@@ -27,10 +28,24 @@ public class AuthResource {
   //  return ResponseEntity.ok(userAnsweredQuestions);
 
   @PostMapping("/register")
-  public ResponseEntity<UserResponseDTO> register(
-    @RequestBody UserRequestDTO request
-  ) {
-    return ResponseEntity.ok(authService.register(request));
+  public ResponseEntity register(@RequestBody UserRequestDTO request) {
+    try {
+      var response = authService.register(request);
+      return ResponseEntity.ok(response);
+    } catch (Exception e) {
+      return ResponseEntity
+        .badRequest()
+        .body(
+          ErrorResponseDTO
+            .builder()
+            .message(e.getMessage())
+            .status(HttpStatus.BAD_REQUEST.value())
+            .build()
+        );
+      // TODO: handle exception
+      //System.out.println(e.getMessage());
+      //return null;
+    }
   }
 
   @PostMapping("/login")

@@ -49,8 +49,23 @@ public class PessoaService {
     return repo.save(obj);
   }
 
-  public Pessoa findByInscricao(String inscricao) {
-    return repo.findByInscricao(inscricao);
+  public boolean pessoaExistsById(String id) {
+    Optional<Pessoa> pessoaOptional = repo.findById(id);
+    return pessoaOptional.isPresent();
+  }
+
+  // public Pessoa findByInscricao(String inscricao) {
+  //   return repo.findByInscricao(inscricao);
+  // }
+
+  public boolean inscricaoExists(String inscricao) {
+    return (
+      repo
+        .findByInscricao(inscricao)
+        .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"))
+        .getInscricao() !=
+      null
+    );
   }
 
   //=============================================================
