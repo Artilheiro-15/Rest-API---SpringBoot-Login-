@@ -1,5 +1,6 @@
 package com.atilla_jr.rest_ap.domain;
 
+import com.atilla_jr.rest_ap.repository.PessoaRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +17,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity(name = "endereco")
 @Table(name = "endereco")
@@ -25,6 +26,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Endereco {
+
+  // @Autowired
+  // private PessoaRepository repo;
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -69,6 +73,7 @@ public class Endereco {
   private LocalDateTime update_at;
 
   //===================================================
+  //===================================================
   // @ManyToOne
   // @JoinColumn(name = "pessoa_id")
   // private Pessoa pessoa;
@@ -77,6 +82,15 @@ public class Endereco {
   @JoinColumn(name = "pessoa_id", nullable = false)
   private Pessoa pessoa;
 
+  // @ManyToOne
+  // @JoinColumn(name = "usuario_id")
+  // private Usuario usuario;
+
+  // @OneToOne
+  // @JoinColumn(name = "pessoa_id", nullable = false)
+  // private Pessoa pessoa_id;
+
+  //===================================================
   //===================================================
 
   public Integer getId() {
@@ -158,4 +172,12 @@ public class Endereco {
   public void setUpdate_at(LocalDateTime update_at) {
     this.update_at = update_at;
   }
+  // public void removeEndereco(Pessoa pessoa) {
+  //   Endereco endereco = pessoa.getEndereco();
+  //   if (endereco != null) {
+  //     endereco.setPessoa(null);
+  //     pessoa.setEndereco(null);
+  //     repo.save(pessoa);
+  //   }
+  // }
 }

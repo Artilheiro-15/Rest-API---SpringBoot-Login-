@@ -4,12 +4,15 @@ import com.atilla_jr.rest_ap.domain.Pessoa;
 import com.atilla_jr.rest_ap.dto.PessoaDTO;
 import com.atilla_jr.rest_ap.exception.ObjectNotFoundException;
 import com.atilla_jr.rest_ap.repository.PessoaRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.time.ZoneId;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @ComponentScan
@@ -18,15 +21,18 @@ public class PessoaService {
   @Autowired
   private PessoaRepository repo;
 
-  // @Autowired
-  // private UsuarioRepository usuarioRepository;
-
   @Autowired
   private UsuarioServices usuarioServices;
 
-  public boolean existsPessoaWithUsuarioOrEndereco(String id) {
-    return repo.existsByIdAndUsuarioIsNotNullOrEnderecoIsNotNull(id);
-  }
+  @Autowired
+  private EnderecoServices enderecoServices;
+
+  @PersistenceContext
+  private EntityManager entityManager;
+
+  // public boolean existsPessoaWithUsuarioOrEndereco(String id) {
+  //   // return repo.existsByIdAndUsuarioIsNotNullOrEnderecoIsNotNull(id);
+  // }
 
   public Iterable<Pessoa> findAll() {
     return repo.findAll();
@@ -43,43 +49,55 @@ public class PessoaService {
     return repo.save(obj);
   }
 
+  public Pessoa findByInscricao(String inscricao) {
+    return repo.findByInscricao(inscricao);
+  }
+
+  //=============================================================
+
+  @Transactional
   public void delete(String id) {
     Pessoa pessoa = repo
       .findById(id)
       .orElseThrow(() -> new RuntimeException("Pessoa não foi encontrada"));
+
+    // Excluir os registros associados na tabela endereco
+    enderecoServices.deleteByPessoaId(pessoa.getId());
+
+    // Excluir a pessoa
     usuarioServices.deleteByPessoaId(pessoa.getId());
-    //   // Obtém o id do Usuario associado à Pessoa
-    //   Integer usuarioId = pessoa.getUsuario().getId();
 
-    //   // Remove a associação entre Usuario e Pessoa
-    //   Usuario usuario = usuarioRepository
-    //     .findById(usuarioId)
-    //     .orElseThrow(() -> new RuntimeException("Usuário não foi encontrado"));
-    //   usuario.getPessoa().remove(pessoa);
-
-    //   // Remove a associação entre Endereco e Pessoa
-    //   Endereco endereco = pessoa.getEndereco();
-    //   endereco.setPessoa(null);
-
-    //   // Exclui a entidade Pessoa da base de dados
-    //   repo.delete(pessoa);
-    // }
-
-    // public void delete(String id) {
-    //   Pessoa pessoa = repo
-    //     .findById(id)
-    //     .orElseThrow(() -> new RuntimeException("Pessoa não foi encontrada"));
-
-    //   // primeiro remove as associações
-    //   pessoa.setUsuario(null);
-    //   pessoa.setEndereco(null);
-    //   repo.save(pessoa);
-
-    //   // depois exclui a pessoa
-    //   repo.delete(pessoa);
-    // }
-
+    repo.delete(pessoa);
   }
+
+  // @Transactional
+  // public void delete(String pessoaId) {
+  //   // Obter a Pessoa a ser excluída e seus registros relacionados usando JPA
+  //   Pessoa pessoa = entityManager.find(Pessoa.class, pessoaId);
+
+  //   // Excluir a Pessoa e seus registros relacionados usando JPA e Hibernate
+  //   entityManager.remove(pessoa);
+
+  //   // Confirmar as alterações e atualizar o banco de dados
+  //   entityManager.flush();
+  // }
+
+  //=============================================================
+  //=============================================================
+
+  // public void delete(String id) {
+  //   Pessoa pessoa = repo
+  //     .findById(id)
+  //     .orElseThrow(() -> new RuntimeException("Pessoa não foi encontrada"));
+
+  //   // primeiro remove as associações
+  //   pessoa.setUsuario(null);
+  //   pessoa.setEndereco(null);
+  //   repo.save(pessoa);
+
+  //   // depois exclui a pessoa
+  //   repo.delete(pessoa);
+  // }
 
   public Pessoa update(Pessoa obj, Object id) {
     Pessoa newObj;
@@ -91,6 +109,17 @@ public class PessoaService {
     updateData(newObj, obj);
     return repo.save(obj);
   }
+
+  //==============================================================
+  //==============================================================
+
+  // private void updateData(Pessoa newObj, Pessoa obj) {
+  //   newObj.setNome(obj.getNome());
+  //   newObj.setSobrenome(obj.getSobrenome());
+  //   newObj.setGenero(obj.getGenero());
+  //   // remova a linha abaixo
+  //   // newObj.setCreatedAt(obj.getCreatedAt());
+  // }
 
   private void updateData(Pessoa newObj, Pessoa obj) {
     if (!(obj.getNome() != null)) {
@@ -111,6 +140,9 @@ public class PessoaService {
       obj.setInscricao(newObj.getInscricao());
     }
   }
+
+  //==============================================================
+  //==============================================================
 
   public Pessoa fromDTO(PessoaDTO objDto) {
     return Pessoa

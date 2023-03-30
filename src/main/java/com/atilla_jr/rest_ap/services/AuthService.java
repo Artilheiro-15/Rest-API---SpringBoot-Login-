@@ -4,6 +4,7 @@ import com.atilla_jr.rest_ap.domain.Endereco;
 import com.atilla_jr.rest_ap.domain.Usuario;
 import com.atilla_jr.rest_ap.dto.UserRequestDTO;
 import com.atilla_jr.rest_ap.dto.UserResponseDTO;
+import com.atilla_jr.rest_ap.repository.UsuarioRepository;
 import com.atilla_jr.rest_ap.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,22 @@ public class AuthService {
 
   @Autowired
   private AuthenticationManager authenticationManager;
+
+  @Autowired
+  private UsuarioRepository usuarioRepository;
+
+  //==========================================================
+  //==========================================================
+  public boolean userExists(String username) {
+    return usuarioRepository.findByEmail(username).isPresent();
+  }
+
+  public Usuario save(Usuario obj) {
+    return usuarioServices.save(obj);
+  }
+
+  //==========================================================
+  //==========================================================
 
   public UserResponseDTO register(UserRequestDTO request) {
     var pessoa = pessoaService.save(pessoaService.fromDTO(request.getPessoa())); ////////////////////////

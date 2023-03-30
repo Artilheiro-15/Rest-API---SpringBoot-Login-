@@ -31,7 +31,9 @@ public class Usuario implements UserDetails {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Integer id;
 
+  @Column(unique = true, nullable = false)
   private String email;
+
   private String senha;
 
   @Column(updatable = false)
@@ -47,14 +49,14 @@ public class Usuario implements UserDetails {
   @JoinColumn(name = "pessoa_id", nullable = false)
   private Pessoa pessoa;
 
-  @OneToOne
-  private Endereco endereco;
+  //===================================================
 
-  public void setEndereco(Endereco endereco) {
-    this.endereco = endereco;
-  }
+  // @OneToOne
+  // @JoinColumn(name = "endereco_id", nullable = false)
+  // private Endereco endereco;
 
   //===================================================
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority("default"));
@@ -62,12 +64,12 @@ public class Usuario implements UserDetails {
 
   @Override
   public String getPassword() {
-    return this.getSenha();
+    return this.senha;
   }
 
   @Override
   public String getUsername() {
-    return this.getEmail();
+    return this.email;
   }
 
   @Override
@@ -88,5 +90,66 @@ public class Usuario implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  //===================================================
+
+  public static class UsuarioBuilderJava {
+
+    private Integer id;
+    private String email;
+    private String senha;
+    private Pessoa pessoa;
+    // private Endereco endereco; // novo campo
+    private LocalDateTime created_at;
+    private LocalDateTime update_at;
+
+    public UsuarioBuilderJava id(Integer id) {
+      this.id = id;
+      return this;
+    }
+
+    public UsuarioBuilderJava email(String email) {
+      this.email = email;
+      return this;
+    }
+
+    public UsuarioBuilderJava senha(String senha) {
+      this.senha = senha;
+      return this;
+    }
+
+    public UsuarioBuilderJava pessoa(Pessoa pessoa) {
+      this.pessoa = pessoa;
+      return this;
+    }
+
+    // // novo método
+    // public UsuarioBuilderJava endereco(Endereco endereco) {
+    //   this.endereco = endereco;
+    //   return this;
+    // }
+
+    public UsuarioBuilderJava created_at(LocalDateTime created_at) {
+      this.created_at = created_at;
+      return this;
+    }
+
+    public UsuarioBuilderJava update_at(LocalDateTime update_at) {
+      this.update_at = update_at;
+      return this;
+    }
+
+    public Usuario build() {
+      Usuario usuario = new Usuario();
+      usuario.setId(this.id);
+      usuario.setEmail(this.email);
+      usuario.setSenha(this.senha);
+      usuario.setPessoa(this.pessoa);
+      //  usuario.setEndereco(this.endereco); // define o endereço
+      usuario.setCreated_at(this.created_at);
+      usuario.setUpdate_at(this.update_at);
+      return usuario;
+    }
   }
 }

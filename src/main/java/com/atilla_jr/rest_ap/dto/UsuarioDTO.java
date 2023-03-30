@@ -14,4 +14,8 @@ public class UsuarioDTO {
   private Integer id;
   private String email;
   private String senha;
+
+  public String getSenha() {
+    return this.senha;
+  }
 }

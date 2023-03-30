@@ -2,6 +2,7 @@ package com.atilla_jr.rest_ap.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,7 +44,7 @@ public class Pessoa {
   private String inscricao;
 
   @Column(nullable = false)
-  @CreationTimestamp
+  @UpdateTimestamp
   private LocalDateTime created_at;
 
   @UpdateTimestamp
@@ -51,21 +52,22 @@ public class Pessoa {
   private LocalDateTime update_at;
 
   //===================================================
+  //===================================================
+  // @OneToOne
+  // private Endereco endereco;
 
-  @OneToOne
-  private Endereco endereco;
+  // public void setEndereco(Endereco endereco) {
+  //   this.endereco = endereco;
+  // }
 
-  public void setEndereco(Endereco endereco) {
-    this.endereco = endereco;
-  }
+  // @OneToOne
+  // private Usuario usuario;
 
-  @OneToOne
-  private Usuario usuario;
+  // public void setUsuario(Usuario usuario) {
+  //   this.usuario = usuario;
+  // }
 
-  public void setUsuario(Usuario usuario) {
-    this.usuario = usuario;
-  }
-
+  //===================================================
   //===================================================
 
   @Override

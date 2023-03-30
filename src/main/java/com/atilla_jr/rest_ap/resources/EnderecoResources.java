@@ -59,11 +59,31 @@ public class EnderecoResources {
     }
   }
 
+  // @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+  // public ResponseEntity<String> delete(@PathVariable String id) {
+  //   try {
+  //     service.delete(id);
+  //     return ResponseEntity.ok().body("Id: " + id + " Do Endereço Deletado!");
+  //   } catch (Exception e) {
+  //     return ResponseEntity
+  //       .badRequest()
+  //       .body(
+  //         "Aconteceu um erro ao tentar deletar o endereço " + e.getMessage()
+  //       );
+  //   }
+  // }
+
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public ResponseEntity<String> delete(@PathVariable String id) {
     try {
-      service.delete(id);
-      return ResponseEntity.ok().body("Id: " + id + " Do Endereço Deletado!");
+      if (service.isAddressInUse(id)) {
+        return ResponseEntity
+          .badRequest()
+          .body("O endereço está sendo utilizado e não pode ser deletado");
+      } else {
+        service.delete(id);
+        return ResponseEntity.ok().body("Id: " + id + " Do Endereço Deletado!");
+      }
     } catch (Exception e) {
       return ResponseEntity
         .badRequest()

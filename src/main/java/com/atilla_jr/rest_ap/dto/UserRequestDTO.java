@@ -40,4 +40,8 @@ public class UserRequestDTO {
   private Usuario usuario;
 
   private Endereco endereco;
+
+  public String getUserEmail() {
+    return this.email;
+  }
 }
