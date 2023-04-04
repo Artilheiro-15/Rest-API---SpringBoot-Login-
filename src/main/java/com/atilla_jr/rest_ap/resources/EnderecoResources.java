@@ -88,7 +88,8 @@ public class EnderecoResources {
       return ResponseEntity
         .badRequest()
         .body(
-          "Aconteceu um erro ao tentar deletar o endereço " + e.getMessage()
+          "Aconteceu um erro ao tentar deletar o endereço:     " +
+          e.getMessage()
         );
     }
   }
